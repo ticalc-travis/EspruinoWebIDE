@@ -42,7 +42,7 @@
       defaultValue : "default",
       onChange : function(newValue) {
 	loadThemeCSS(Espruino.Config.THEME);
-	for (editor of Espruino.Core.EditorJavaScript.getEditors()) {
+	for (const editor of Espruino.Core.EditorJavaScript.getEditors()) {
 	  editor.codeMirror.setOption('theme', Espruino.Config.THEME);
 	}
       }
