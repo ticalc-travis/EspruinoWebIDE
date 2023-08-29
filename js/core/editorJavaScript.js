@@ -44,9 +44,9 @@
       defaultValue : "default",
       onChange : function(newValue) {
         loadThemeCSS(Espruino.Config.THEME);
-	      for (const ed of getEditors()) {
+        for (const ed of getEditors()) {
 	        ed.codeMirror.setOption('theme', Espruino.Config.THEME);
-	      }
+        }
       }
     });
     Espruino.Core.Config.add("INDENTATION_TYPE", {
