@@ -21,6 +21,8 @@
   };
 
   function init() {
+    const getEditors = Espruino.Core.EditorJavaScript.getEditors;
+    
     // Options
     Espruino.Core.Config.add("KEYMAP", {
       section : "General",
@@ -29,8 +31,8 @@
       type : { "emacs": "Emacs", "vim": "Vim", "sublime": "Sublime" },
       defaultValue : "sublime",
       onChange : function(newValue) {
-        if (codeMirror) {
-          codeMirror.setOption('keyMap', Espruino.Config.KEYMAP);
+        for (const ed of getEditors()) {
+          ed.codeMirror.setOption('keyMap', Espruino.Config.KEYMAP);
         }
       }
     });
@@ -41,10 +43,10 @@
       type : { "default": "default", "3024-day": "3024-day", "3024-night": "3024-night", "abcdef": "abcdef", "ambiance": "ambiance", "ayu-dark": "ayu-dark", "ayu-mirage": "ayu-mirage", "base16-dark": "base16-dark", "base16-light": "base16-light", "bespin": "bespin", "blackboard": "blackboard", "cobalt": "cobalt", "colorforth": "colorforth", "darcula": "darcula", "dracula": "dracula", "duotone-dark": "duotone-dark", "duotone-light": "duotone-light", "eclipse": "eclipse", "elegant": "elegant", "espruino": "espruino", "erlang-dark": "erlang-dark", "gruvbox-dark": "gruvbox-dark", "hopscotch": "hopscotch", "icecoder": "icecoder", "idea": "idea", "isotope": "isotope", "lesser-dark": "lesser-dark", "liquibyte": "liquibyte", "lucario": "lucario", "material": "material", "material-darker": "material-darker", "material-palenight": "material-palenight", "material-ocean": "material-ocean", "mbo": "mbo", "mdn-like": "mdn-like", "midnight": "midnight", "monokai": "monokai", "moxer": "moxer", "neat": "neat", "neo": "neo", "night": "night", "nord": "nord", "oceanic-next": "oceanic-next", "panda-syntax": "panda-syntax", "paraiso-dark": "paraiso-dark", "paraiso-light": "paraiso-light", "pastel-on-dark": "pastel-on-dark", "railscasts": "railscasts", "rubyblue": "rubyblue", "seti": "seti", "shadowfox": "shadowfox", "solarized dark": "solarized dark", "solarized light": "solarized light", "the-matrix": "the-matrix", "tomorrow-night-bright": "tomorrow-night-bright", "tomorrow-night-eighties": "tomorrow-night-eighties", "ttcn": "ttcn", "twilight": "twilight", "vibrant-ink": "vibrant-ink", "xq-dark": "xq-dark", "xq-light": "xq-light", "yeti": "yeti", "yonce": "yonce", "zenburn": "zenburn" },
       defaultValue : "default",
       onChange : function(newValue) {
-	loadThemeCSS(Espruino.Config.THEME);
-	for (const editor of Espruino.Core.EditorJavaScript.getEditors()) {
-	  editor.codeMirror.setOption('theme', Espruino.Config.THEME);
-	}
+        loadThemeCSS(Espruino.Config.THEME);
+	      for (const ed of getEditors()) {
+	        ed.codeMirror.setOption('theme', Espruino.Config.THEME);
+	      }
       }
     });
     Espruino.Core.Config.add("INDENTATION_TYPE", {
@@ -54,8 +56,8 @@
       type : { "spaces": "Spaces", "tabs": "Tabs" },
       defaultValue : "spaces",
       onChange : function(newValue) {
-        if (codeMirror) {
-          codeMirror.setOption('indentWithTabs', !!(Espruino.Config.INDENTATION_TYPE == "tabs"));
+        for (const ed of getEditors()) {
+          ed.codeMirror.setOption('indentWithTabs', !!(Espruino.Config.INDENTATION_TYPE == "tabs"));
         }
       }
     });
@@ -66,9 +68,9 @@
       type : {1:1,2:2,4:4,8:8},
       defaultValue : 2,
       onChange : function(newValue) {
-        if (codeMirror) {
-          codeMirror.setOption('tabSize', Espruino.Config.TAB_SIZE);
-          codeMirror.setOption('indentUnit', Espruino.Config.TAB_SIZE);
+        for (const ed of getEditors()) {
+          ed.codeMirror.setOption('tabSize', Espruino.Config.TAB_SIZE);
+          ed.codeMirror.setOption('indentUnit', Espruino.Config.TAB_SIZE);
         }
       }
     });
@@ -81,9 +83,9 @@
       type : "boolean",
       defaultValue : false,
       onChange: function(newValue) {
-          if (codeMirror) {
-            codeMirror.setOption('lint', (Espruino.Config.DISABLE_CODE_HINTS) ? false : defaultLintFlags);
-          }
+        for (const ed of getEditors()) {
+          ed.codeMirror.setOption('lint', (Espruino.Config.DISABLE_CODE_HINTS) ? false : defaultLintFlags);
+        }
       }
     });
     CodeMirror.defineExtension('beautify', function () {
