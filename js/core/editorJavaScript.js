@@ -45,7 +45,7 @@
       onChange : function(newValue) {
         loadThemeCSS(Espruino.Config.THEME);
         for (const ed of getEditors()) {
-	        ed.codeMirror.setOption('theme', Espruino.Config.THEME);
+          ed.codeMirror.setOption('theme', Espruino.Config.THEME);
         }
       }
     });
