@@ -21,8 +21,6 @@
   };
 
   function init() {
-    const getEditors = Espruino.Core.EditorJavaScript.getEditors;
-    
     // Options
     Espruino.Core.Config.add("KEYMAP", {
       section : "General",
@@ -31,7 +29,7 @@
       type : { "emacs": "Emacs", "vim": "Vim", "sublime": "Sublime" },
       defaultValue : "sublime",
       onChange : function(newValue) {
-        for (const ed of getEditors()) {
+        for (const ed of Espruino.Core.EditorJavaScript.getEditors()) {
           ed.codeMirror.setOption('keyMap', Espruino.Config.KEYMAP);
         }
       }
@@ -44,7 +42,7 @@
       defaultValue : "default",
       onChange : function(newValue) {
         loadThemeCSS(Espruino.Config.THEME);
-        for (const ed of getEditors()) {
+        for (const ed of Espruino.Core.EditorJavaScript.getEditors()) {
           ed.codeMirror.setOption('theme', Espruino.Config.THEME);
         }
       }
@@ -56,7 +54,7 @@
       type : { "spaces": "Spaces", "tabs": "Tabs" },
       defaultValue : "spaces",
       onChange : function(newValue) {
-        for (const ed of getEditors()) {
+        for (const ed of Espruino.Core.EditorJavaScript.getEditors()) {
           ed.codeMirror.setOption('indentWithTabs', !!(Espruino.Config.INDENTATION_TYPE == "tabs"));
         }
       }
@@ -68,7 +66,7 @@
       type : {1:1,2:2,4:4,8:8},
       defaultValue : 2,
       onChange : function(newValue) {
-        for (const ed of getEditors()) {
+        for (const ed of Espruino.Core.EditorJavaScript.getEditors()) {
           ed.codeMirror.setOption('tabSize', Espruino.Config.TAB_SIZE);
           ed.codeMirror.setOption('indentUnit', Espruino.Config.TAB_SIZE);
         }
@@ -83,7 +81,7 @@
       type : "boolean",
       defaultValue : false,
       onChange: function(newValue) {
-        for (const ed of getEditors()) {
+        for (const ed of Espruino.Core.EditorJavaScript.getEditors()) {
           ed.codeMirror.setOption('lint', (Espruino.Config.DISABLE_CODE_HINTS) ? false : defaultLintFlags);
         }
       }
