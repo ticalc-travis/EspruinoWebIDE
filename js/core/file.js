@@ -131,6 +131,9 @@
         // if we didn't have an editor, make one
         files[idx].editor = Espruino.Core.EditorJavaScript.createNewEditor();
         setFileEditorContents(files[idx], files[idx].contents);
+        // Don't allow Undo to empty a freshly-opened document; should
+        // start out in “clean” status
+        files[idx].editor.codeMirror.clearHistory();
       } else {
         files[idx].editor.setVisible(true);
       }
