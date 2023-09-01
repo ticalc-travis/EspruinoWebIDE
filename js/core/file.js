@@ -422,7 +422,7 @@
     // if we're in
     if (openFileMode == "watch" || openFileMode == "upload") {
       watchInterval = setInterval(function() {
-        files.forEach(readFileContents);
+        files.forEach((file) => {readFileContents(file)});
       }, WATCH_INTERVAL);
     }
   }
