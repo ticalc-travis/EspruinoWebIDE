@@ -106,9 +106,6 @@
 
   // Sets the file and the editor up with the file's contents
   function setFileEditorContents(file, value, options) {
-    // temp debug
-    console.log('setFileEditorContents: file: ' + file + '  options: ' + options);
-
     options = options||{};
     file.contents = value;
     if (file.editor) {
