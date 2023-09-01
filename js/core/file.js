@@ -106,6 +106,9 @@
 
   // Sets the file and the editor up with the file's contents
   function setFileEditorContents(file, value, options) {
+    // temp debug
+    console.log('setFileEditorContents: file: ' + file + '  options: ' + options);
+
     options = options||{};
     file.contents = value;
     if (file.editor) {
@@ -466,7 +469,7 @@
           if (!fileHandle.name) return;
           var file = createNewTab({fileName:fileHandle.name, isEmpty:true});
           file.handle = fileHandle;
-          readFileContents(file);
+          readFileContents(file, {clearHistory: true});
         });
       });
     } else if (("undefined"!=typeof chrome) && chrome.fileSystem) {
@@ -500,7 +503,10 @@
 
 
   // read a file from window.showOpenFilePicker
-  function readFileContents(fileToLoad) {
+  function readFileContents(fileToLoad, options) {
+    options = options||{};
+    if (options.clearHistory === undefined) options.clearHistory = false;
+
     if (!fileToLoad.handle) {
       return;
     }
@@ -518,7 +524,7 @@
       if (!contents) return;
       // if loaded, update editor
       fileToLoad.lastModified = file.lastModified;
-      setFileEditorContents(fileToLoad, convertFromOS(contents));
+      setFileEditorContents(fileToLoad, convertFromOS(contents), {clearHistory: options.clearHistory});
       if (openFileMode == "upload") {
         Espruino.Core.Notifications.info(new Date().toLocaleTimeString() + ": " + fileToLoad.name+" changed, uploading...");
         Espruino.Plugins.KeyShortcuts.action("icon-deploy");
