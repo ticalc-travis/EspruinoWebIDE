@@ -201,7 +201,6 @@ var WIN_HEIGHT = (GFX_HEIGHT+10+4);
 function resizeEnd() {
   //100ms since last resize
   dontTrigger = true;
-  window.resizeBy(Math.round(byX*correctingRatio*WIN_WIDTH-window.innerWidth), Math.round(byY*correctingRatio*WIN_HEIGHT-window.innerHeight));
   var scale = correctingRatio*byX;
   if (scale < correctingRatio ) scale = correctingRatio;
   document.getElementById("gfxdiv").style.transform = "translate(-50%,-50%) scale("+scale+","+scale+")";
@@ -216,25 +215,16 @@ function onResize(e) {
   }
 
   // data collection
+  byX=3;byY=3;
+
   if ( window.innerWidth < Math.floor(WIN_WIDTH*correctingRatio*3) || window.innerHeight < Math.floor(WIN_HEIGHT*correctingRatio*3) ) {
-    if ( window.innerWidth < Math.floor(WIN_WIDTH*correctingRatio*2.5) || window.innerHeight < Math.floor(WIN_HEIGHT*correctingRatio*2.5) ) {
-      byX=2;byY=2;
-    } else {
-      byX=3;byY=3;
-    }
-  } else {
-    byX=3;byY=3;
+    byX=2;byY=2;
   }
   if ( window.innerWidth < Math.floor(WIN_WIDTH*correctingRatio*2) || window.innerHeight < Math.floor(WIN_HEIGHT*correctingRatio*2) ) {
-    if ( window.innerWidth < Math.floor(WIN_WIDTH*correctingRatio*1.5) || window.innerHeight < Math.floor(WIN_HEIGHT*correctingRatio*1.5) ) {
-      byX=1;byY=1;
-    } else {
-      byX=2;byY=2;
-    }
-  }
-  if ( window.innerWidth < Math.floor(WIN_WIDTH*correctingRatio) || window.innerHeight < Math.floor(WIN_HEIGHT*correctingRatio) ) {
     byX=1;byY=1;
   }
+
+  console.log(byX);
 }
 
 if ("undefined" != typeof window) {
