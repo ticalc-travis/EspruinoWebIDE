@@ -3,6 +3,7 @@ var jsRXCallback;
 var jsIdleTimeout;
 
 // Flash memory handling
+const FLASH_SAVE_INTERVAL = 300000;
 var flashMemory = new Uint8Array(FLASH_SIZE);
 var maxFlashMemory = 0;
 flashMemory.fill(255);
@@ -18,10 +19,21 @@ if ("undefined" != typeof window) {
       });
     }
   }
-  window.addEventListener("unload", function() { // Save storage contents on exit
+  function saveFlashIfChanged() {
     var a = new Uint8Array(flashMemory.buffer, 0, maxFlashMemory+1);
-    localStorage.setItem("BANGLE_STORAGE", a.toString()); // 1,2,3,4, etc...
+    var b = localStorage.getItem("BANGLE_STORAGE");
+    if (b != a.toString()) {
+      console.log("Saving flash to localStorage");
+      localStorage.setItem("BANGLE_STORAGE", a.toString()); // 1,2,3,4, etc...
+    }
+  }
+  window.addEventListener("visibilitychange", function() {
+    if (document.visibilityState == "hidden") {
+      saveFlashIfChanged();
+    }
   });
+  window.addEventListener("beforeunload", saveFlashIfChanged);
+  setInterval(saveFlashIfChanged, FLASH_SAVE_INTERVAL);
 }
 function eraseAll() {
   maxFlashMemory = 0;
